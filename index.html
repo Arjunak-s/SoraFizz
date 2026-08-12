@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorafizz — Japan's Marble Soda, Landing in Delhi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Sora:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-pale:#E7EFFA;
+    --sky-mid:#BFD6F2;
+    --dusk:#1B2A4A;
+    --ramune:#3E7CB1;
+    --fizz-pink:#F4A6B7;
+    --citrus:#FFC94D;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Sora', sans-serif;
+    color:var(--dusk);
+    background:var(--sky-pale);
+    overflow-x:hidden;
+  }
+  .mono{font-family:'Space Mono', monospace;}
+  .serif{font-family:'Shippori Mincho B1', serif;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6vh 6vw 8vh;
+    background:linear-gradient(180deg, #F4F8FE 0%, var(--sky-pale) 45%, var(--sky-mid) 100%);
+    overflow:hidden;
+  }
+  .bubble{
+    position:absolute;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #ffffff, var(--sky-mid) 70%);
+    opacity:0.5;
+    animation:rise linear infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) scale(1); opacity:0; }
+    10%{ opacity:0.55; }
+    100%{ transform:translateY(-115vh) scale(1.15); opacity:0; }
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--ramune);
+    background:rgba(255,255,255,0.6);
+    border:1px solid rgba(62,124,177,0.35);
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:28px;
+  }
+  .headline{
+    font-family:'Shippori Mincho B1', serif;
+    font-weight:700;
+    font-size:clamp(2.6rem, 8vw, 5.4rem);
+    line-height:1.05;
+    color:var(--dusk);
+  }
+  .headline .kana{
+    display:block;
+    font-size:0.34em;
+    color:var(--ramune);
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+  }
+  .subhead{
+    max-width:520px;
+    margin:26px auto 0;
+    font-size:1.08rem;
+    line-height:1.6;
+    color:#39496B;
+  }
+
+  /* Bottle */
+  .bottle-wrap{
+    position:relative;
+    width:130px;
+    height:280px;
+    margin:44px auto 8px;
+  }
+  .bottle{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .marble{
+    transform-origin:center;
+    animation:pop 3.2s ease-in-out infinite;
+  }
+  @keyframes pop{
+    0%, 100%{ transform:translateY(0); }
+    45%{ transform:translateY(0); }
+    52%{ transform:translateY(-14px); }
+    58%{ transform:translateY(4px); }
+    64%{ transform:translateY(0); }
+  }
+
+  .cta-row{
+    margin-top:40px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .btn-primary{
+    font-family:'Sora', sans-serif;
+    font-weight:600;
+    font-size:0.98rem;
+    background:var(--dusk);
+    color:var(--sky-pale);
+    border:none;
+    padding:15px 30px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:transform 0.18s ease, background 0.18s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); background:#0F1B33; }
+  .btn-primary:focus-visible{ outline:3px solid var(--citrus); outline-offset:3px; }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:28px;
+    left:50%;
+    transform:translateX(-50%);
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    color:var(--ramune);
+    text-transform:uppercase;
+    opacity:0.75;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    padding:9vh 6vw;
+    max-width:1080px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:60px;
+    align-items:center;
+  }
+  .about h2{
+    font-family:'Shippori Mincho B1', serif;
+    font-weight:700;
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    line-height:1.25;
+    margin-bottom:22px;
+    color:var(--dusk);
+  }
+  .about p{
+    font-size:1.02rem;
+    line-height:1.7;
+    color:#39496B;
+    max-width:46ch;
+  }
+  .about p + p{ margin-top:16px; }
+  .fact-card{
+    background:var(--white);
+    border-radius:20px;
+    padding:26px 28px;
+    box-shadow:0 20px 40px -28px rgba(27,42,74,0.35);
+  }
+  .fact-card .num{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    color:var(--ramune);
+    text-transform:uppercase;
+  }
+  .fact-card p{
+    margin-top:10px;
+    font-size:0.95rem;
+    color:#39496B;
+    line-height:1.55;
+  }
+  .fact-card + .fact-card{ margin-top:16px; }
+
+  /* ---------- WAITLIST ---------- */
+  .waitlist{
+    background:var(--dusk);
+    color:var(--sky-pale);
+    padding:10vh 6vw;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .waitlist h2{
+    font-family:'Shippori Mincho B1', serif;
+    font-weight:700;
+    font-size:clamp(1.9rem, 5vw, 3rem);
+    margin-bottom:16px;
+  }
+  .waitlist .subhead{ color:#B9C6E4; }
+  .form-row{
+    margin:38px auto 0;
+    display:flex;
+    max-width:460px;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .form-row input[type="email"]{
+    flex:1 1 240px;
+    padding:15px 18px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    font-family:'Sora', sans-serif;
+    font-size:0.95rem;
+  }
+  .form-row input[type="email"]::placeholder{ color:#8FA3C9; }
+  .form-row input[type="email"]:focus-visible{ outline:2px solid var(--citrus); }
+  .btn-citrus{
+    font-family:'Sora', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    background:var(--citrus);
+    color:var(--dusk);
+    border:none;
+    padding:15px 26px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:transform 0.18s ease;
+  }
+  .btn-citrus:hover{ transform:translateY(-2px); }
+  .btn-citrus:focus-visible{ outline:3px solid #fff; outline-offset:3px; }
+  .counter{
+    margin-top:22px;
+    font-family:'Space Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.08em;
+    color:#9FB2D6;
+  }
+  .form-note{
+    margin-top:10px;
+    font-size:0.8rem;
+    color:#7C90BA;
+  }
+  #form-status{
+    margin-top:16px;
+    font-size:0.9rem;
+    min-height:1.2em;
+  }
+
+  /* ---------- CITY LOCK ---------- */
+  .citylock{
+    padding:9vh 6vw;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .citylock .eyebrow{ margin-bottom:22px; }
+  .citylock h2{
+    font-family:'Shippori Mincho B1', serif;
+    font-weight:700;
+    font-size:clamp(1.7rem, 4vw, 2.4rem);
+    margin-bottom:34px;
+  }
+  .city-grid{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .city-pill{
+    font-family:'Sora', sans-serif;
+    font-size:0.9rem;
+    padding:12px 24px;
+    border-radius:999px;
+    border:1px solid rgba(62,124,177,0.3);
+    color:var(--ramune);
+    background:rgba(255,255,255,0.5);
+  }
+  .city-pill.active{
+    background:var(--dusk);
+    color:var(--sky-pale);
+    border-color:var(--dusk);
+    font-weight:600;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:6vh 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    border-top:1px solid rgba(62,124,177,0.2);
+  }
+  footer .brand{
+    font-family:'Shippori Mincho B1', serif;
+    font-weight:700;
+    font-size:1.1rem;
+  }
+  footer a{
+    color:var(--ramune);
+    text-decoration:none;
+    font-family:'Sora', sans-serif;
+    font-size:0.92rem;
+    font-weight:600;
+  }
+
+  @media (max-width:760px){
+    .about{ grid-template-columns:1fr; gap:36px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bubble, .marble{ animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="bubble" style="width:26px;height:26px;left:12%; animation-duration:9s; animation-delay:0s;"></div>
+  <div class="bubble" style="width:14px;height:14px;left:22%; animation-duration:7s; animation-delay:1.2s;"></div>
+  <div class="bubble" style="width:34px;height:34px;left:78%; animation-duration:11s; animation-delay:0.4s;"></div>
+  <div class="bubble" style="width:18px;height:18px;left:88%; animation-duration:8s; animation-delay:2.1s;"></div>
+  <div class="bubble" style="width:10px;height:10px;left:65%; animation-duration:6s; animation-delay:0.8s;"></div>
+  <div class="bubble" style="width:20px;height:20px;left:40%; animation-duration:10s; animation-delay:1.6s;"></div>
+
+  <span class="eyebrow">Coming to Delhi first</span>
+  <h1 class="headline"><span class="kana">そら フィズ</span>sorafizz</h1>
+  <p class="subhead">Japan's cult marble-bottle soda, reimagined for India. One pop, one fizz, one city at a time — starting with Delhi.</p>
+
+  <div class="bottle-wrap">
+    <svg class="bottle" viewBox="0 0 130 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M45 60 L45 20 Q45 8 57 8 L73 8 Q85 8 85 20 L85 60 Q108 80 108 120 L108 255 Q108 272 91 272 L39 272 Q22 272 22 255 L22 120 Q22 80 45 60 Z"
+            fill="rgba(255,255,255,0.55)" stroke="#3E7CB1" stroke-width="2.5"/>
+      <path d="M30 130 Q65 145 100 130 L100 250 Q100 264 88 264 L42 264 Q30 264 30 250 Z" fill="#BFD6F2" opacity="0.7"/>
+      <circle class="marble" cx="65" cy="45" r="11" fill="#F4A6B7" stroke="#1B2A4A" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="cta-row">
+    <button class="btn-primary" onclick="document.getElementById('waitlist-form').scrollIntoView({behavior:'smooth'})">Vote for Sorafizz</button>
+  </div>
+
+  <span class="scroll-cue">scroll ↓</span>
+</section>
+
+<section class="about">
+  <div>
+    <h2>The bottle everyone remembers, none of the import fees.</h2>
+    <p>Ramune has been Japan's iconic marble-stoppered soda since 1872. You push the marble down, it seals against the neck, and the fizz stays locked in until the moment you crack it open.</p>
+    <p>We're building the same ritual for India — brewed close to home, priced without a ₹500 import markup, and dropping first in Delhi before anywhere else.</p>
+  </div>
+  <div>
+    <div class="fact-card">
+      <div class="num">Step 1 — Vote</div>
+      <p>No payment, just your email. Every vote counts toward the 1,000-vote goal that greenlights manufacturing.</p>
+    </div>
+    <div class="fact-card">
+      <div class="num">Step 2 — We build</div>
+      <p>At 1,000 votes, we start manufacturing Batch 001. Once the build is right, real pre-orders open — voters hear first.</p>
+    </div>
+  </div>
+</section>
+
+<section class="waitlist" id="waitlist-form">
+  <span class="eyebrow" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.25); color:#DCE6F7;">Vote for Sorafizz</span>
+  <h2>Vote to bring Sorafizz to life.</h2>
+  <p class="subhead">No payment — just your vote. At 1,000 votes, we start manufacturing Batch 001. If the build turns out great, pre-orders open next — and you'll be first to know.</p>
+
+  <form class="form-row" id="waitlist-real-form" onsubmit="handleSubmit(event)">
+    <input type="email" id="email-input" name="email" placeholder="you@email.com" required>
+    <button type="submit" class="btn-citrus" id="submit-btn">Cast my vote</button>
+  </form>
+  <div id="form-status" class="mono"></div>
+  <div class="counter" id="counter-text">0 / 1,000 VOTES TO UNLOCK MANUFACTURING</div>
+  <p class="form-note">We'll never spam you. One email when we hit 1,000 votes, that's it.</p>
+</section>
+
+<section class="citylock">
+  <span class="eyebrow">City lock</span>
+  <h2 class="serif">First drop: Delhi. Everywhere else votes for next.</h2>
+  <div class="city-grid">
+    <span class="city-pill active">Delhi NCR — Batch 001</span>
+    <span class="city-pill">Mumbai — voting open</span>
+    <span class="city-pill">Bengaluru — voting open</span>
+    <span class="city-pill">Hyderabad — voting open</span>
+  </div>
+</section>
+
+<footer>
+  <span class="brand">sorafizz</span>
+  <a href="https://instagram.com" target="_blank" rel="noopener">Follow along on Instagram →</a>
+</footer>
+
+<script>
+  // 1. Deploy the Apps Script Web App (see setup steps) and paste its URL
+  //    here, ending in /exec. That's the only setup step.
+  const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxBosNrwP-6lBrD0aBDPNbVyUAVmHPmT7PeEHS9C2TG163rhhimIdjqvPG8WA9pxj3v/exec";
+
+  // Set this to your real current vote count before each deploy —
+  // see the note above about why this can't update live automatically yet.
+  let voteCount = 0;
+  const VOTE_GOAL = 1000;
+
+  async function handleSubmit(e){
+    e.preventDefault();
+    const emailField = document.getElementById('email-input');
+    const status = document.getElementById('form-status');
+    const counterText = document.getElementById('counter-text');
+    const btn = document.getElementById('submit-btn');
+    if(!emailField.value){ return; }
+
+    btn.disabled = true;
+    btn.textContent = "Casting vote...";
+    status.style.color = "#DCE6F7";
+    status.textContent = "";
+
+    try{
+      // no-cors: the browser can't read the response, but the row still
+      // gets written to the Sheet. We optimistically treat "no error thrown"
+      // as success, which is the standard pattern for Apps Script web apps.
+      await fetch(SHEETS_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        body: new FormData(document.getElementById('waitlist-real-form'))
+      });
+
+      voteCount += 1;
+      status.textContent = "Your vote is in — thank you!";
+      status.style.color = "#FFC94D";
+      counterText.textContent = voteCount + " / " + VOTE_GOAL + " VOTES TO UNLOCK MANUFACTURING";
+      emailField.value = '';
+    } catch(err){
+      status.textContent = "Network error — check your connection and retry.";
+      status.style.color = "#F4A6B7";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Cast my vote";
+      emailField.blur();
+    }
+  }
+</script>
+
+</body>
+</html>
