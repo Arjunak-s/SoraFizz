@@ -216,8 +216,8 @@
     flex-wrap:wrap;
     justify-content:center;
   }
-  .form-row input[type="email"]{
-    flex:1 1 240px;
+  .form-row input[type="email"], .form-row input[type="tel"]{
+    flex:1 1 200px;
     padding:15px 18px;
     border-radius:999px;
     border:1px solid rgba(255,255,255,0.25);
@@ -226,8 +226,8 @@
     font-family:'Sora', sans-serif;
     font-size:0.95rem;
   }
-  .form-row input[type="email"]::placeholder{ color:#8FA3C9; }
-  .form-row input[type="email"]:focus-visible{ outline:2px solid var(--citrus); }
+  .form-row input[type="email"]::placeholder, .form-row input[type="tel"]::placeholder{ color:#8FA3C9; }
+  .form-row input[type="email"]:focus-visible, .form-row input[type="tel"]:focus-visible{ outline:2px solid var(--citrus); }
   .btn-citrus{
     font-family:'Sora', sans-serif;
     font-weight:600;
@@ -382,12 +382,13 @@
   <p class="subhead">No payment — just your vote. At 1,000 votes, we start manufacturing Batch 001. If the build turns out great, pre-orders open next — and you'll be first to know.</p>
 
   <form class="form-row" id="waitlist-real-form" onsubmit="handleSubmit(event)">
+    <input type="tel" id="phone-input" name="phone" placeholder="Phone number" pattern="[0-9]{10}" title="10-digit phone number" required>
     <input type="email" id="email-input" name="email" placeholder="you@email.com" required>
     <button type="submit" class="btn-citrus" id="submit-btn">Cast my vote</button>
   </form>
   <div id="form-status" class="mono"></div>
   <div class="counter" id="counter-text">0 / 1,000 VOTES TO UNLOCK MANUFACTURING</div>
-  <p class="form-note">We'll never spam you. One email when we hit 1,000 votes, that's it.</p>
+  <p class="form-note">One vote per person — each phone number and email can only vote once. We'll never spam you.</p>
 </section>
 
 <section class="citylock">
@@ -409,7 +410,7 @@
 <script>
   // 1. Deploy the Apps Script Web App (see setup steps) and paste its URL
   //    here, ending in /exec. That's the only setup step.
-  const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxBosNrwP-6lBrD0aBDPNbVyUAVmHPmT7PeEHS9C2TG163rhhimIdjqvPG8WA9pxj3v/exec";
+  const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxkRlkt5jpEepw4azD2rextxw21FcwD40D7JLe39ZWOkrP5GkTAU8fdXUFFxiZIJp_L/exec";
 
   // Set this to your real current vote count before each deploy —
   // see the note above about why this can't update live automatically yet.
@@ -419,10 +420,11 @@
   async function handleSubmit(e){
     e.preventDefault();
     const emailField = document.getElementById('email-input');
+    const phoneField = document.getElementById('phone-input');
     const status = document.getElementById('form-status');
     const counterText = document.getElementById('counter-text');
     const btn = document.getElementById('submit-btn');
-    if(!emailField.value){ return; }
+    if(!emailField.value || !phoneField.value){ return; }
 
     btn.disabled = true;
     btn.textContent = "Casting vote...";
@@ -430,20 +432,29 @@
     status.textContent = "";
 
     try{
-      // no-cors: the browser can't read the response, but the row still
-      // gets written to the Sheet. We optimistically treat "no error thrown"
-      // as success, which is the standard pattern for Apps Script web apps.
-      await fetch(SHEETS_ENDPOINT, {
+      // Regular (non no-cors) fetch so we can actually read the server's
+      // response — Apps Script's redirect target sets CORS headers that
+      // allow this for POST requests with FormData bodies.
+      const res = await fetch(SHEETS_ENDPOINT, {
         method: "POST",
-        mode: "no-cors",
         body: new FormData(document.getElementById('waitlist-real-form'))
       });
+      const data = await res.json();
 
-      voteCount += 1;
-      status.textContent = "Your vote is in — thank you!";
-      status.style.color = "#FFC94D";
-      counterText.textContent = voteCount + " / " + VOTE_GOAL + " VOTES TO UNLOCK MANUFACTURING";
-      emailField.value = '';
+      if(data.result === "duplicate"){
+        status.textContent = "That phone number or email has already voted.";
+        status.style.color = "#F4A6B7";
+      } else if(data.result === "success"){
+        voteCount = data.count || (voteCount + 1);
+        status.textContent = "Your vote is in — thank you!";
+        status.style.color = "#FFC94D";
+        counterText.textContent = voteCount + " / " + VOTE_GOAL + " VOTES TO UNLOCK MANUFACTURING";
+        emailField.value = '';
+        phoneField.value = '';
+      } else {
+        status.textContent = "Something went wrong — try again in a moment.";
+        status.style.color = "#F4A6B7";
+      }
     } catch(err){
       status.textContent = "Network error — check your connection and retry.";
       status.style.color = "#F4A6B7";
